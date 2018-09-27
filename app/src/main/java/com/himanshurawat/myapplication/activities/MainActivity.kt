@@ -1,6 +1,5 @@
-package com.himanshurawat.myapplication
+package com.himanshurawat.myapplication.activities
 
-import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,8 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.himanshurawat.myapplication.service.VideoDownloadService
+import com.himanshurawat.myapplication.R
+import com.himanshurawat.myapplication.services.VideoDownloadService
 import com.himanshurawat.myapplication.utils.DownloadUtils
 
 

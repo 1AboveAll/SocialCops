@@ -1,9 +1,10 @@
-package com.himanshurawat.myapplication
+package com.himanshurawat.myapplication.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.himanshurawat.myapplication.R
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class Splash : AppCompatActivity() {

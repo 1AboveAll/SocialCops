@@ -1,4 +1,4 @@
-package com.himanshurawat.myapplication.service;
+package com.himanshurawat.myapplication.services;
 
 import android.app.Notification;
 
