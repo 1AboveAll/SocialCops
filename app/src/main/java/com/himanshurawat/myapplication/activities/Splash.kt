@@ -26,9 +26,9 @@ class Splash : AppCompatActivity() {
                 handler.post(Runnable {activity_splash_progress_bar.setProgress(progressStatus) })
                 try {
                     // Sleep for 50 milliseconds.
-                    Thread.sleep(50)
+                    Thread.sleep(20)
                     if (progressStatus == 100) {
-                        startActivity(Intent(this@Splash, MainActivity::class.java))
+                        startActivity(Intent(this@Splash, ListActivity::class.java))
                         finish()
                     }
                 } catch (e: Throwable) {

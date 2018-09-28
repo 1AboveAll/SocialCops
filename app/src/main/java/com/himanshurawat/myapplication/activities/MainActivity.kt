@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.TextView
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.offline.DownloadService
 import com.google.android.exoplayer2.offline.ProgressiveDownloadAction
@@ -15,8 +16,11 @@ import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.himanshurawat.myapplication.R
+import com.himanshurawat.myapplication.pojo.Model
 import com.himanshurawat.myapplication.services.VideoDownloadService
+import com.himanshurawat.myapplication.utils.Constants
 import com.himanshurawat.myapplication.utils.DownloadUtils
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +28,10 @@ class MainActivity : AppCompatActivity() {
     private var playerView: PlayerView? = null
     private var player: SimpleExoPlayer? = null
 
-    private val uri = Uri.parse("https://socialcops.com/images/old/spec/home/header-img-background_video-1920-480.mp4")
+    private lateinit var uri: Uri
+
+    private lateinit var titleTextView: TextView
+    private lateinit var descriptionTextView: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +41,33 @@ class MainActivity : AppCompatActivity() {
         //Finding PlayerView (Although Not Required in Kotlin)
         playerView = findViewById(R.id.activity_main_player_view)
 
+        val model: Model = intent.getSerializableExtra(Constants.INTENT_KEY) as Model
+        uri = Uri.parse(model.videoUrl)
+
+        val orientation = resources.configuration.orientation
+
+        if(orientation == Configuration.ORIENTATION_PORTRAIT){
+            titleTextView = findViewById(R.id.activity_main_video_title_text_view)
+            descriptionTextView = findViewById(R.id.activity_main_video_description_text_view)
+
+            titleTextView.text = model.videoTitle
+            descriptionTextView.text = model.videoDescription
+        }
+
+
+
+
+
+
+
 
     }
 
     override fun onStart() {
         super.onStart()
 
-        progressiveDownload()
-        initializePlayer()
+        progressiveDownload(uri)
+        initializePlayer(uri)
 
     }
 
@@ -51,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun initializePlayer(){
+    private fun initializePlayer(source: Uri){
         if(player == null){
 
             player = ExoPlayerFactory.newSimpleInstance(this,DefaultTrackSelector())
@@ -65,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
             val extractorMediaSource = ExtractorMediaSource.
                     Factory(cacheDataSourceFactory).
-                    createMediaSource(uri)
+                    createMediaSource(source)
             player?.prepare(extractorMediaSource)
             player?.playWhenReady = true
         }
@@ -78,9 +104,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun progressiveDownload(){
+    private fun progressiveDownload(source: Uri){
 
-        val progressiveDownloadAction = ProgressiveDownloadAction(uri,
+        val progressiveDownloadAction = ProgressiveDownloadAction(source,
                 false,null,null )
 
         DownloadService.startWithAction(this@MainActivity,
